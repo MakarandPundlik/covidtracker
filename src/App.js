@@ -7,6 +7,7 @@ import {
   MenuItem,
   makeStyles,
 } from "@material-ui/core";
+import InfoBox from "./InfoBox";
 
 const useStyles = makeStyles({
   app_header: {
@@ -15,6 +16,10 @@ const useStyles = makeStyles({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  app_stats:{
+    display:"flex",
+    justifyContent:"space-between"
+  }
 });
 
 function App() {
@@ -66,6 +71,23 @@ function App() {
             })}
           </Select>
         </FormControl>
+      </div>
+      <div className={classes.app_stats}>
+        <InfoBox 
+        cases={231}
+        total={12}
+        title="Coronavirun Cases"
+        />
+          <InfoBox
+          cases={231}x 
+        total={12}
+        title="Recovered"
+        />
+          <InfoBox
+          cases={231}x 
+        total={12}
+        title="Deaths"
+        />
       </div>
     </>
   );
