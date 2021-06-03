@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./App.css";
 import {
   CssBaseline,
@@ -49,16 +50,21 @@ function App() {
   //run only when whole page is mounted
   useEffect(() => {
     const getCountriesData = async () => {
-      fetch("https://disease.sh/v3/covid-19/countries")
-        .then((response) => response.json())
-        .then((data) => {
-          const countries = data.map((country) => ({
+      await axios
+        .get("https://disease.sh/v3/covid-19/countries")
+        .then((res) => {
+          console.log(res);
+
+          const countries = res.data.map((country) => ({
             name: country.country,
             value: country.countryInfo.iso2,
           }));
 
           setCountries(countries);
-        });
+        })
+        .catch((err)=>{
+          console.log(err);
+        })
     };
 
     getCountriesData();
@@ -77,12 +83,19 @@ function App() {
       countryCode === "worldwide"
         ? "https://disease.sh/v3/covid-19/all"
         : `https://disease.sh/v3/covid-19/countries/${countryCode}`;
-    await fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        setCountryInfo(data);
+
+    console.log(url);
+
+    await axios
+      .get(url)
+      .then((res) =>{
+        setCountryInfo(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    console.log(countryInfo);
+    
   };
   return (
     <div className={classes.app}>
