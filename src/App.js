@@ -16,6 +16,7 @@ import InfoBox from "./InfoBox";
 import Map from "./Map";
 import Table from "./Table";
 import Chart from './Chart';
+import "leaflet/dist/leaflet.css";
 
 const useStyles = makeStyles({
   app: {
@@ -128,7 +129,7 @@ function App() {
     <div className={classes.app}>
       <CssBaseline />
       <Grid container>
-        <Grid item md={12} xs={12} sm={12} xl={12} lg={9}>
+        <Grid item md={12} xs={12} sm={12} xl={12} lg={8}>
           <div className={classes.app_left}>
             <div className={classes.app_header}>
               <h1>Covid-19 Tracker</h1>
@@ -159,12 +160,12 @@ function App() {
             <Map />
           </div>
         </Grid>
-        <Grid item md={12} xs={12} sm={12} xl={4} lg={3}>
+        <Grid item md={12} xs={12} sm={12} xl={4} lg={4}>
           <Card className={classes.app_right}>
             <CardContent style={{alignItems:"center"}}>
               <h3> Cases by country</h3>
               <Table countries={tableData}/>
-              <h3> Country graph</h3>
+              <h3>Global Statistics</h3>
               <Chart />
             </CardContent>
           </Card>

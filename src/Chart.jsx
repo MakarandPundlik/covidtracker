@@ -1,10 +1,10 @@
 import axios from 'axios';
 import React,{useState,useEffect} from 'react';
-import {Line} from 'react-chartjs-2';
+import {Bar} from 'react-chartjs-2';
 import numeral from 'numeral';
 const options = {
     legend: {
-      display: false,
+      display: true,
     },
     elements: {
       point: {
@@ -14,7 +14,7 @@ const options = {
     maintainAspectRatio: false,
     tooltips: {
       mode: "index",
-      intersect: false,
+      intersect: true,
       callbacks: {
         label: function (tooltipItem, data) {
           return numeral(tooltipItem.value).format("+0,0");
@@ -26,15 +26,19 @@ const options = {
         {
           type: "time",
           time: {
-            format: "MM/DD/YY",
+            format: "DD/MM/YY",
             tooltipFormat: "ll",
           },
+          scaleLabel: {
+            display: true,
+            labelString: 'Y text'
+          }
         },
       ],
       yAxes: [
         {
           gridLines: {
-            display: false,
+            display: true,
           },
           ticks: {
             // Include a dollar sign in the ticks
@@ -47,7 +51,7 @@ const options = {
     },
   };
 
-function Chart(props) {
+function Chart({caseType="cases"}) {
     // https://disease.sh/v3/covid-19/historical?lastdays=120
     const [data,setData] = useState({});
 
@@ -82,11 +86,11 @@ function Chart(props) {
 
         getHistoricalData();
 
-    }, [])
+    }, [caseType])
     return (
-        <div className={props.className}>
-        {data.length > 0 && (
-          <Line
+        <div >
+        {data?.length > 0 && ( //empowered by typescript
+          <Bar
             data={{
               datasets: [
                 {
