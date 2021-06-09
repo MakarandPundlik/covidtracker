@@ -18,6 +18,7 @@ import Table from "./Table";
 import Chart from './Chart';
 import "leaflet/dist/leaflet.css";
 
+
 const useStyles = makeStyles({
   app: {
     display: "flex",
@@ -36,9 +37,11 @@ const useStyles = makeStyles({
   },
   app_left: {
     margin: "2rem",
+    borderRadius:"20px"
   },
   app_right: {
     margin: "2rem",
+    borderRadius:"20px"
   },
 });
 
@@ -54,6 +57,10 @@ function App() {
   const [countryInfo, setCountryInfo] = useState({});
   //for table on right div
   const [tableData,setTableData] = useState([]);
+  //for map
+  const [mapCenter, setMapCenter] = useState({lat:34.8074,lng: -40.4796,});
+  const [mapZoom,setMapZoom] = useState(3);
+  const [mapCountries,setMapCountries] = useState([]);
 
 
 
@@ -85,7 +92,7 @@ function App() {
           }));
           
           setTableData(sortData(res.data));
-         
+          setMapCountries(res.data);
           setCountries(countries);
         })
         .catch((err) => {
@@ -104,8 +111,7 @@ function App() {
     console.log(country);
     setCountry(countryCode);
 
-    //link for particular contry
-    //https://disease.sh/v3/covid-19/countries/strict=fasle
+   
 
     const url =
       countryCode === "worldwide"
@@ -116,7 +122,10 @@ function App() {
       .get(url)
       .then((res) => {
         setCountryInfo(res.data);
-      
+        countryCode === "worldwide"
+          ? setMapCenter([37.0902, 95.7129])
+          : setMapCenter([res.data.countryInfo.lat, res.data.countryInfo.long]);
+        setMapZoom(4);
       })
       .catch((err) => {
         console.log(err);
@@ -157,7 +166,11 @@ function App() {
             </div>
 
             {/* map  */}
-            <Map />
+            <Map 
+            center={mapCenter}
+            zoom={mapZoom}
+            countries={mapCountries}
+            />
           </div>
         </Grid>
         <Grid item md={12} xs={12} sm={12} xl={4} lg={4}>
