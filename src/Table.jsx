@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "space-between",
     "&:nth-of-type(odd)": {
-      backgroundColor: "#e0e0e0",
+      backgroundColor: "#dfeaed",
     },
   },
   td: {

@@ -41,12 +41,19 @@ const useStyles = makeStyles({
     margin: "2rem",
     borderRadius: "20px",
   },
-
+  app_dropdown: {
+    background: "#dfeaed",
+    "&:before": {
+      borderColor: "#dfeaed",
+    },
+    "&:after": {
+      borderColor: "#dfeaed",
+    },
+  },
   // infobox styling leftchild
   infoBox: {
     fontSize: "1.75rem",
     fontWeight: 600,
-    color: "#707070",
   },
 });
 
@@ -62,7 +69,7 @@ function App() {
   //for table on right div
   const [tableData, setTableData] = useState([]);
   //cases types
-  const [casesType,setCasesType] = useState("cases");
+  const [casesType, setCasesType] = useState("cases");
   //for map
   const [mapCenter, setMapCenter] = useState({ lat: 34.8074, lng: -40.4796 });
   const [mapZoom, setMapZoom] = useState(3);
@@ -138,9 +145,10 @@ function App() {
         <Grid item md={12} xs={12} sm={12} xl={12} lg={8}>
           <div className={classes.app_left}>
             <div className={classes.app_header}>
-              <h1>Covid-19 Tracker</h1>
-              <FormControl className="app_dropdown">
+              <h1 style={{ color: "#15009e" }}>COVID-19 TRACKER</h1>
+              <FormControl >
                 <Select
+                className={classes.app_dropdown}
                   value={country}
                   variant="outlined"
                   onChange={(e) => handleCountryChange(e)}
@@ -158,9 +166,10 @@ function App() {
             </div>
             <div className={classes.app_stats}>
               <InfoBox
-              isRed={casesType==="cases"}
-              active={casesType==="cases"}
-                onClick={(e)=>{setCasesType("cases")}}
+                isViolet={true}
+                onClick={(e) => {
+                  setCasesType("cases");
+                }}
                 className={classes.infoBox}
                 total={countryInfo.cases}
                 cases={countryInfo.todayCases}
@@ -168,8 +177,10 @@ function App() {
                 class="cases"
               />
               <InfoBox
-              active={casesType==="recovered"}
-              onClick={(e)=>{setCasesType("recovered")}}
+                isGreen={true}
+                onClick={(e) => {
+                  setCasesType("recovered");
+                }}
                 className={classes.infoBox}
                 total={countryInfo.recovered}
                 cases={countryInfo.todayRecovered}
@@ -177,9 +188,10 @@ function App() {
                 class="deaths"
               />
               <InfoBox
-              isRed={casesType==="deaths"}
-              active={casesType==="deaths"}
-              onClick={(e)=>{setCasesType("deaths")}}
+                isRed={true}
+                onClick={(e) => {
+                  setCasesType("deaths");
+                }}
                 className={classes.infoBox}
                 total={countryInfo.deaths}
                 cases={countryInfo.todayDeaths}
@@ -204,8 +216,8 @@ function App() {
               <Table countries={tableData} />
               <br />
               <br />
-              <h3>Worldwide {casesType}</h3>
-              <Chart casesType={casesType}/>
+              <h3 style={{ color: " #15009e" }}>Worldwide {casesType}</h3>
+              <Chart casesType={casesType} />
             </CardContent>
           </Card>
         </Grid>
