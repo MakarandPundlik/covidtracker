@@ -47,12 +47,32 @@ const options = {
   },
 };
 
+const casesTypeColors = {
+  cases: {
+    hex: "#15009e"
 
-function Chart({caseType="cases"}) {
+ 
+  },
+
+  recovered: {
+    hex: "#008a30"
+
+  ,
+  },
+
+  deaths: {
+    hex: "#ff1100"
+
+ 
+  },
+};
+
+
+function Chart({casesType}) {
     // https://disease.sh/v3/covid-19/historical?lastdays=120
     const [data,setData] = useState({});
 
-    const buildChartData = (data,caseType = "cases") =>{
+    const buildChartData = (data,casesType) =>{
     
         const chartData = [];
         
@@ -62,11 +82,11 @@ function Chart({caseType="cases"}) {
             {
                 const newDataPoint = {
                         x:date,
-                        y:data[caseType][date] - lastDataPoint
+                        y:data[casesType][date] - lastDataPoint
                 }
                 chartData.push(newDataPoint);
             }
-            lastDataPoint = data[caseType][date];
+            lastDataPoint = data[casesType][date];
         }
         return chartData;
     }
@@ -75,7 +95,7 @@ function Chart({caseType="cases"}) {
             await axios.get("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
             .then((res)=>{
                 
-               const chartData = buildChartData(res.data,"cases");
+               const chartData = buildChartData(res.data,casesType);
                 setData(chartData);
             })
             .catch((err)=>{
@@ -85,7 +105,7 @@ function Chart({caseType="cases"}) {
 
         getHistoricalData();
 
-    }, [caseType])
+    }, [casesType])
     return (
       <div >
       {data?.length > 0 && (
@@ -93,10 +113,10 @@ function Chart({caseType="cases"}) {
           data={{
             datasets: [
               {
-                backgroundColor: "rgba(204, 16, 52, 0.5)",
-                borderColor: "#CC1034",
+                backgroundColor: casesTypeColors[casesType].hex,
+                borderColor: casesTypeColors[casesType].hex,
                 data: data,
-                label:"Cases"
+                label:""
               },
             ],
           }}
