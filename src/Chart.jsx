@@ -53,7 +53,9 @@ function Chart({caseType="cases"}) {
     const [data,setData] = useState({});
 
     const buildChartData = (data,caseType = "cases") =>{
+    
         const chartData = [];
+        
         let lastDataPoint ;
        for(let date in data.cases){
             if(lastDataPoint)
@@ -94,6 +96,7 @@ function Chart({caseType="cases"}) {
                 backgroundColor: "rgba(204, 16, 52, 0.5)",
                 borderColor: "#CC1034",
                 data: data,
+                label:"Cases"
               },
             ],
           }}

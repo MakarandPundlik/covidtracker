@@ -108,7 +108,7 @@ function App() {
   //set specific country on select value change
   const handleCountryChange = async (e) => {
     const countryCode = e.target.value;
-    console.log(country);
+   
     setCountry(countryCode);
 
    
