@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
-import { MapContainer, TileLayer,useMap,Marker,Circle } from "react-leaflet";
+import { MapContainer, TileLayer,useMap,Circle } from "react-leaflet";
 import { showDataOnMap } from "./util";
 const useStyles = makeStyles({
   map:{
@@ -11,7 +11,31 @@ const useStyles = makeStyles({
     margin:"2rem"
   }
 })
-function Map({ countries, casesType, center, zoom }) {
+
+const casesTypeColors = {
+  cases: {
+    hex: "#CC1034",
+    // rgb: "rgb(204,16,52)",
+    // half_op: "rgba(204,16,52,0.5)",
+    mulitiplier: 800,
+  },
+
+  recovered: {
+    hex: "#7DD71D",
+    // rgb: "rgb(125,215,29)",
+    // half_op: "rgba(125,215,29,0.5)",
+    mulitiplier: 1200,
+  },
+
+  deaths: {
+    hex: "#C0C0C0",
+    // rgb: "rgb(251,68,67)",
+    // half_op: "rgba(251,68,67,0.5)",
+    mulitiplier: 2000,
+  },
+};
+
+function Map({ countries, casesType="cases", center, zoom }) {
 
   function ChangeView({ center, zoom }) {
     const map = useMap();
@@ -34,23 +58,25 @@ function Map({ countries, casesType, center, zoom }) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {showDataOnMap(countries,casesType)}
-      <Marker 
-        
-        position={{lat:34.8074,lng: -40.4796,}}>
-        <Circle
-        center={{lat:34.8074,lng: -40,}}
+    
+    {
+      countries.map((country)=>{
+      return(  <Circle
+        center={{lat:country.countryInfo.lat,lng: country.countryInfo.long}}
         fillOpacity={0.4}
         pathOptions={{
           color: "#CC1034",
           fillColor: "#CC1034"
         }}
         radius={
-          Math.sqrt(535453 / 10) *
-          1000
+          Math.sqrt(country[casesType] / 20) *
+        casesTypeColors[casesType].mulitiplier
         }
       >
-        </Circle>
-        </Marker>
+        </Circle>)
+      })
+    }
+      
     </MapContainer>
   );
 }

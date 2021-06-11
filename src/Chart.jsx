@@ -1,55 +1,52 @@
 import axios from 'axios';
 import React,{useState,useEffect} from 'react';
-import {Bar} from 'react-chartjs-2';
+import {Line} from 'react-chartjs-2';
 import numeral from 'numeral';
 const options = {
-    legend: {
-      display: true,
+  legend: {
+    display: false,
+  },
+  elements: {
+    point: {
+      radius: 0,
     },
-    elements: {
-      point: {
-        radius: 0,
+  },
+  maintainAspectRatio: false,
+  tooltips: {
+    mode: "index",
+    intersect: false,
+    callbacks: {
+      label: function (tooltipItem, data) {
+        return numeral(tooltipItem.value).format("+0,0");
       },
     },
-    maintainAspectRatio: false,
-    tooltips: {
-      mode: "index",
-      intersect: true,
-      callbacks: {
-        label: function (tooltipItem, data) {
-          return numeral(tooltipItem.value).format("+0,0");
+  },
+  scales: {
+    xAxes: [
+      {
+        type: "time",
+        time: {
+          format: "MM/DD/YY",
+          tooltipFormat: "ll",
         },
       },
-    },
-    scales: {
-      xAxes: [
-        {
-          type: "time",
-          time: {
-            format: "DD/MM/YY",
-            tooltipFormat: "ll",
-          },
-          scaleLabel: {
-            display: true,
-            labelString: 'Y text'
-          }
+    ],
+    yAxes: [
+      {
+        gridLines: {
+          display: false,
         },
-      ],
-      yAxes: [
-        {
-          gridLines: {
-            display: true,
-          },
-          ticks: {
-            // Include a dollar sign in the ticks
-            callback: function (value, index, values) {
-              return numeral(value).format("0a");
-            },
+        ticks: {
+          // Include a dollar sign in the ticks
+          callback: function (value, index, values) {
+            return numeral(value).format("0a");
           },
         },
-      ],
-    },
-  };
+      },
+    ],
+  },
+};
+
 
 function Chart({caseType="cases"}) {
     // https://disease.sh/v3/covid-19/historical?lastdays=120
@@ -88,23 +85,23 @@ function Chart({caseType="cases"}) {
 
     }, [caseType])
     return (
-        <div >
-        {data?.length > 0 && ( //empowered by typescript
-          <Bar
-            data={{
-              datasets: [
-                {
-                  backgroundColor: "rgba(204, 16, 52, 0.5)",
-                  borderColor: "#CC1034",
-                  data: data,
-                },
-              ],
-            }}
-            options={options}
-          />
-        )}
-      </div>
-    );
-}
+      <div >
+      {data?.length > 0 && (
+        <Line
+          data={{
+            datasets: [
+              {
+                backgroundColor: "rgba(204, 16, 52, 0.5)",
+                borderColor: "#CC1034",
+                data: data,
+              },
+            ],
+          }}
+          options={options}
+        />
+      )}
+    </div>
+       
+    )}
 
 export default Chart;
