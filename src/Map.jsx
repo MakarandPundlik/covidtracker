@@ -1,14 +1,28 @@
 import { makeStyles } from "@material-ui/core";
+import numeral from "numeral";
 import React from "react";
-import { MapContainer, TileLayer,useMap,Circle } from "react-leaflet";
-import { showDataOnMap } from "./util";
+import { MapContainer, TileLayer,useMap,Circle,Popup } from "react-leaflet";
+
 const useStyles = makeStyles({
   map:{
     height:"500px",
     backgroundColor:"#ff9991",
     borderRadius:"20px",
-    padding:"2rem",
-    margin:"2rem"
+    marginTop:"1.2rem"
+  },
+  flag:{
+    height:"80px",
+    width:"100%",
+    borderRadius:"5px",
+    backgroundSize:"cover"
+  },
+  countryName:{
+    fontSize:"20px",
+    color:"#b3b3b3"
+  },
+  numbers:{
+    fontSize:"14px",
+    color:"#b3b3b3"
   }
 })
 
@@ -73,6 +87,16 @@ function Map({ countries, casesType="cases", center, zoom }) {
         casesTypeColors[casesType].mulitiplier
         }
       >
+        <Popup>
+       <div>
+         <div className={classes.flag} style={{backgroundImage:`url(${country.countryInfo.flag})`}}/>
+         <div className={classes.countryName}>{country.country}</div>
+         <div className={classes.numbers}>Cases:{numeral(country.cases).format("0,0")}</div>
+         <div className={classes.numbers}>Deaths:{numeral(country.deaths).format("0,0")}</div>
+         <div className={classes.numbers}>Recovered:{numeral(country.recovered).format("0,0")}</div>
+     
+       </div>
+        </Popup>
         </Circle>)
       })
     }

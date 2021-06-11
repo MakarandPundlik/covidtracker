@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {sortData }from './util';
+import {prettyPrintStat, sortData }from './util';
 import "./App.css";
 import {
   CssBaseline,
@@ -22,18 +22,18 @@ import "leaflet/dist/leaflet.css";
 const useStyles = makeStyles({
   app: {
     display: "flex",
-    justifyContent: "space-evenly",
+   
     padding: "20px",
   },
   app_header: {
-    display: "flex",
+    display: "flex",  
     marginBottom: "20px",
     justifyContent: "space-between",
-    alignItems: "center",
+    
   },
   app_stats: {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent:"space-between"
   },
   app_left: {
     margin: "2rem",
@@ -43,6 +43,13 @@ const useStyles = makeStyles({
     margin: "2rem",
     borderRadius:"20px"
   },
+
+  // infobox styling leftchild
+  infoBox:{
+    fontSize:"1.75rem",
+    fontWeight:600,
+    color:"#707070"
+  }
 });
 
 function App() {
@@ -125,7 +132,7 @@ function App() {
         countryCode === "worldwide"
           ? setMapCenter([37.0902, 95.7129])
           : setMapCenter([res.data.countryInfo.lat, res.data.countryInfo.long]);
-        setMapZoom(4);
+        setMapZoom(6);
       })
       .catch((err) => {
         console.log(err);
@@ -160,9 +167,9 @@ function App() {
               </FormControl>
             </div>
             <div className={classes.app_stats}>
-              <InfoBox total={countryInfo.cases} cases={countryInfo.todayCases} title="Coronavirun Cases" />
-              <InfoBox total={countryInfo.recovered}  cases={countryInfo.todayRecovered} title="Recovered" />
-              <InfoBox total={countryInfo.deaths}  cases={countryInfo.todayDeaths} title="Deaths" />
+              <InfoBox className={classes.infoBox} total={countryInfo.cases} cases={prettyPrintStat(countryInfo.todayCases)} title="Coronavirun Cases" />
+              <InfoBox className={classes.infoBox} total={countryInfo.recovered}  cases={countryInfo.todayRecovered} title="Recovered" />
+              <InfoBox className={classes.infoBox} total={countryInfo.deaths}  cases={countryInfo.todayDeaths} title="Deaths" />
             </div>
 
             {/* map  */}
@@ -178,6 +185,8 @@ function App() {
             <CardContent style={{alignItems:"center"}}>
               <h3> Cases by country</h3>
               <Table countries={tableData}/>
+              <br/>
+              <br/>
               <h3>Global Statistics</h3>
               <Chart />
             </CardContent>

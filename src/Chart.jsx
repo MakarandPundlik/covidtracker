@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React,{useState,useEffect} from 'react';
-import {Line} from 'react-chartjs-2';
+import {Bar} from 'react-chartjs-2';
 import numeral from 'numeral';
 const options = {
   legend: {
@@ -89,7 +89,7 @@ function Chart({caseType="cases"}) {
     return (
       <div >
       {data?.length > 0 && (
-        <Line
+        <Bar
           data={{
             datasets: [
               {
