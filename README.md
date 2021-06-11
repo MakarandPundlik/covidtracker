@@ -4,3 +4,5 @@
 - ReactJs
 - Material-UI
 - Axios (third party)
+- React Charts(graph)
+- React Leaflet(map)
